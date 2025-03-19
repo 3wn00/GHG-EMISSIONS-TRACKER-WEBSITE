@@ -526,7 +526,7 @@ path.line {
   fill: #cccccc;
 }
 
-.gif-container {
+/* .gif-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -539,22 +539,22 @@ path.line {
   z-index: -1; /* Move the GIF container behind other elements */
 }
 
-.side-gif {
+/* /* .side-gif {
   width: 150px; /* Adjust the size as needed */
-  height: auto;
-  filter: grayscale(100%); /* Convert to black and white */
-  image-rendering: pixelated; /* Make the image more pixelated */
-}
+  /* height: auto; */
+  /* filter: grayscale(100%); /* Convert to black and white */
+  /* image-rendering: pixelated; /* Make the image more pixelated */
+/* } */ */ */ */
 
-.left-gif {
+/* .left-gif {
   margin-right: auto;
   margin-left: 60px; /* Adjust this value to position the left GIF */
-}
+/* } */
 
-.right-gif {
+/* .right-gif {
   margin-left: auto;
   margin-right: 60px; /* Adjust this value to position the right GIF */
-}
+/* } */
 
 .highlight-green {
   color: rgb(187, 255, 187) !important;
