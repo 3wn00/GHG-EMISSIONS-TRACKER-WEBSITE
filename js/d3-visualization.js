@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let chartType = 'line';
     
     // SVG dimensions
-    const margin = {top: 40, right: 40, bottom: 60, left: 80};
-    const width = 800 - margin.left - margin.right;
+    const margin = {top: 40, right: 160, bottom: 80, left: 100}; // Increased bottom margin for x-axis labels
+    const width = 700 - margin.left - margin.right; // Reduced width
     const height = 400 - margin.top - margin.bottom;
     
     // Create SVG
@@ -133,27 +133,32 @@ document.addEventListener('DOMContentLoaded', function() {
         svg.append('g')
             .attr('class', 'axis')
             .attr('transform', `translate(0,${height})`)
-            .call(d3.axisBottom(xScale).tickFormat(d3.format('d')));
+            .call(d3.axisBottom(xScale).tickFormat(d3.format('d')).ticks(years.length / 2)) // Adjust tick interval
+            .selectAll('text')
+            .attr('transform', 'rotate(-90)') // Rotate text labels
+            .attr('dx', '-.8em')
+            .attr('dy', '.15em')
+            .style('text-anchor', 'end');
         
         svg.append('g')
             .attr('class', 'axis')
             .call(d3.axisLeft(yScale));
         
-        // Add axis labels
+        // Add y-axis label at the top
+        svg.append('text')
+            .attr('class', 'axis-label')
+            .attr('text-anchor', 'middle')
+            .attr('x', -margin.left + 20)
+            .attr('y', -10)
+            .text('MtCO₂e');
+        
+        // Add x-axis label
         svg.append('text')
             .attr('class', 'axis-label')
             .attr('text-anchor', 'middle')
             .attr('x', width / 2)
             .attr('y', height + margin.bottom - 10)
             .text('YEAR');
-        
-        svg.append('text')
-            .attr('class', 'axis-label')
-            .attr('text-anchor', 'middle')
-            .attr('transform', 'rotate(-90)')
-            .attr('x', -height / 2)
-            .attr('y', -margin.left + 20)
-            .text('GHG EMISSIONS (MtCO₂e)');
         
         // Draw lines for each country
         const colorScale = d3.scaleOrdinal()
@@ -200,8 +205,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
                     
                     tooltip.style.opacity = 1;
-                    tooltip.style.left = (event.pageX + 10) + 'px';
-                    tooltip.style.top = (event.pageY - 28) + 'px';
+                    tooltip.style.left = (width + margin.left + 20) + 'px'; // Position tooltip in the right corner
+                    tooltip.style.top = margin.top + 'px'; // Position tooltip at the top
                     
                     d3.select(this)
                         .attr('r', 6)
@@ -219,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Add legend
         const legend = svg.append('g')
             .attr('class', 'legend')
-            .attr('transform', `translate(${width - 120}, 0)`);
+            .attr('transform', `translate(${width + 20}, 0)`); // Move legend to the right of the chart
         
         selectedCountries.forEach((country, i) => {
             const legendRow = legend.append('g')
@@ -235,6 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .attr('y', 10)
                 .attr('text-anchor', 'start')
                 .style('font-size', '10px')
+                .style('fill', '#FFFFFF') // Ensure the text color is white
                 .text(country);
         });
         
@@ -272,16 +278,24 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('transform', `translate(0,${height})`)
             .call(d3.axisBottom(xScale))
             .selectAll('text')
-            .attr('transform', 'rotate(-45)')
-            .attr('text-anchor', 'end')
+            .attr('transform', 'rotate(-90)') // Rotate text labels
             .attr('dx', '-.8em')
-            .attr('dy', '.15em');
+            .attr('dy', '.15em')
+            .style('text-anchor', 'end');
         
         svg.append('g')
             .attr('class', 'axis')
             .call(d3.axisLeft(yScale));
         
-        // Add axis labels
+        // Add y-axis label at the top
+        svg.append('text')
+            .attr('class', 'axis-label')
+            .attr('text-anchor', 'middle')
+            .attr('x', -margin.left + 20)
+            .attr('y', -10)
+            .text('MtCO₂e');
+        
+        // Add x-axis label
         svg.append('text')
             .attr('class', 'axis-label')
             .attr('text-anchor', 'middle')
@@ -289,46 +303,38 @@ document.addEventListener('DOMContentLoaded', function() {
             .attr('y', height + margin.bottom - 10)
             .text('COUNTRY');
         
-        svg.append('text')
-            .attr('class', 'axis-label')
-            .attr('text-anchor', 'middle')
-            .attr('transform', 'rotate(-90)')
-            .attr('x', -height / 2)
-            .attr('y', -margin.left + 20)
-            .text('GHG EMISSIONS (MtCO₂e)');
-        
         // Draw bars
-        svg.selectAll('.country-bar')
+        svg.selectAll('.bar')
             .data(yearData)
             .enter()
             .append('rect')
-            .attr('class', 'country-bar')
+            .attr('class', 'bar')
             .attr('x', d => xScale(d.country))
             .attr('y', d => yScale(d.value))
             .attr('width', xScale.bandwidth())
             .attr('height', d => height - yScale(d.value))
-            .attr('fill', '#FFFFFF')
-            .attr('stroke', '#000000')
-            .attr('stroke-width', 1)
+            .attr('fill', '#69b3a2')
             .on('mouseover', function(event, d) {
+                const countryName = d.country;
+                const emissionValue = d.value.toFixed(2);
+                
                 tooltipContent.innerHTML = `
-                    <strong>${d.country}</strong><br>
-                    Year: ${currentYear}<br>
-                    Emissions: ${d.value.toFixed(2)} MtCO₂e
+                    <strong>${countryName}</strong><br>
+                    Emissions: ${emissionValue} MtCO₂e
                 `;
                 
                 tooltip.style.opacity = 1;
-                tooltip.style.left = (event.pageX + 10) + 'px';
-                tooltip.style.top = (event.pageY - 28) + 'px';
+                tooltip.style.left = (width + margin.left + 20) + 'px'; // Position tooltip in the right corner
+                tooltip.style.top = margin.top + 'px'; // Position tooltip at the top
                 
                 d3.select(this)
-                    .attr('fill', '#CCCCCC');
+                    .attr('fill', '#ffcc00');
             })
             .on('mouseout', function() {
                 tooltip.style.opacity = 0;
                 
                 d3.select(this)
-                    .attr('fill', '#FFFFFF');
+                    .attr('fill', '#69b3a2');
             });
         
         // Add value labels

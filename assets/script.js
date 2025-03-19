@@ -50,9 +50,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Add pixel animations to elements when they come into view
+    let animationsPlayed = false;
+
     const animateOnScroll = () => {
+        if (animationsPlayed) return;
+
         const elements = document.querySelectorAll('.pixel-box, .menu a, .pixel-button');
-        
         elements.forEach(el => {
             const rect = el.getBoundingClientRect();
             const isVisible = (
@@ -69,8 +72,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 10);
             }
         });
+
+        // Set the flag to true and remove the scroll event listener
+        animationsPlayed = true;
+        window.removeEventListener('scroll', animateOnScroll);
     };
-    
+
     // Add scroll event listener for animations
     window.addEventListener('scroll', animateOnScroll);
     

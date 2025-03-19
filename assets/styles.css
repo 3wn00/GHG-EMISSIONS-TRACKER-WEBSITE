@@ -1,4 +1,3 @@
-/* Global Styles */
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 :root {
@@ -169,6 +168,10 @@ h1 {
   grid-template-rows: auto auto;
   gap: 20px;
   margin-bottom: 40px;
+}
+
+.legend text {
+  fill: #FFFFFF; /* Set the text color to white */
 }
 
 .controls {
@@ -510,10 +513,49 @@ path.line {
   font-family: 'Press Start 2P', cursive;
 }
 
+/* Add this CSS rule to change the axis label text color to white */
+.axis-label {
+    fill: #FFFFFF; /* Set the text color to white */
+}
+
 .country-bar {
   fill: var(--white);
 }
 
 .country-bar:hover {
   fill: #cccccc;
+}
+
+.gif-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  padding: 0 20px;
+  z-index: -1; /* Move the GIF container behind other elements */
+}
+
+.side-gif {
+  width: 150px; /* Adjust the size as needed */
+  height: auto;
+  filter: grayscale(100%); /* Convert to black and white */
+  image-rendering: pixelated; /* Make the image more pixelated */
+}
+
+.left-gif {
+  margin-right: auto;
+  margin-left: 60px; /* Adjust this value to position the left GIF */
+}
+
+.right-gif {
+  margin-left: auto;
+  margin-right: 60px; /* Adjust this value to position the right GIF */
+}
+
+.highlight-green {
+  color: rgb(187, 255, 187) !important;
 }
