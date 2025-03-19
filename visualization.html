@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GHG Emissions Visualization</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="glitch" data-text="GHG EMISSIONS TRACKER">GHG EMISSIONS TRACKER</h1>
+            <nav>
+                <ul class="menu">
+                    <li><a href="index.html">HOME</a></li>
+                    <li><a href="visualization.html" class="active">VISUALIZE</a></li>
+                    <li><a href="contact.html">CONTACT</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="visualization-container">
+                <div class="controls pixel-box">
+                    <h2>VISUALIZATION CONTROLS</h2>
+                    <div class="control-group">
+                        <label for="countrySelect">Select Countries:</label>
+                        <select id="countrySelect" multiple>
+                            <!-- Will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label for="yearRange">Year Range:</label>
+                        <input type="range" id="yearRange" min="1990" max="2018" value="2018">
+                        <span id="selectedYear">2018</span>
+                    </div>
+                    <div class="control-group">
+                        <label>View Type:</label>
+                        <button id="lineChartBtn" class="pixel-button active">LINE CHART</button>
+                        <button id="barChartBtn" class="pixel-button">BAR CHART</button>
+                    </div>
+                </div>
+                
+                <div class="chart-container pixel-box">
+                    <h2 id="chartTitle">GHG EMISSIONS BY COUNTRY (1990-2018)</h2>
+                    <div id="visualization"></div>
+                    <div id="tooltip" class="tooltip">
+                        <div id="tooltipContent"></div>
+                    </div>
+                </div>
+                
+                <div class="data-insights pixel-box">
+                    <h2>DATA INSIGHTS</h2>
+                    <div id="insights">
+                        <!-- Will be populated by JavaScript -->
+                        <p>Select countries and adjust controls to see data insights.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 GHG EMISSIONS TRACKER</p>
+        </footer>
+    </div>
+
+    <script src="js/d3-visualization.js"></script>
+    <script src="assets/script.js"></script>
+</body>
+</html>
